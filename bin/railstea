@@ -12,4 +12,21 @@ APP_NAME=$1
 VERSION=$2
 REPO_URL=https://github.com/Johaned/rails-template.git
 
+# Converts app_name string to useful conventions
+HUM_APP_NAME=${APP_NAME//-/_}
+TIT_APP_NAME=${HUM_APP_NAME//_/ }
+TIT_APP_NAME=( $TIT_APP_NAME )
+TIT_APP_NAME=${TIT_APP_NAME[@]^}
+CAP_APP_NAME=${TIT_APP_NAME// /}
+
+# Creates files references
+APPLICATION_FILE=$APP_NAME/config/application.rb
+SESSION_STORE=$APP_NAME/config/initializers/session_store.rb
+MONGO_CONFIG=$APP_NAME/config/mongoid.yml.example
+
 git clone --branch $VERSION $REPO_URL $APP_NAME
+
+sed -i "16s/.*/module $CAP_APP_NAME/" $APPLICATION_FILE
+sed -i "3s/.*/Rails.application.config.session_store :cookie_store, key: '_${HUM_APP_NAME}_session'/" $SESSION_STORE
+sed -i "8s/.*/      database: ${HUM_APP_NAME}_development/" $MONGO_CONFIG
+sed -i "61s/.*/      database: ${HUM_APP_NAME}_test/" $MONGO_CONFIG
