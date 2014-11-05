@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# The first arg will be the app name
+
+if [ "$#" -eq 0 ];then
+  echo "pls state the app name and template version"
+else
+  echo "on we go" 
+fi
+
+APP_NAME=$1
+VERSION=$2
+REPO_URL=https://github.com/Johaned/rails-template.git
+
+git clone --branch $VERSION $REPO_URL $APP_NAME
