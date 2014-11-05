@@ -30,3 +30,10 @@ sed -i "16s/.*/module $CAP_APP_NAME/" $APPLICATION_FILE
 sed -i "3s/.*/Rails.application.config.session_store :cookie_store, key: '_${HUM_APP_NAME}_session'/" $SESSION_STORE
 sed -i "8s/.*/      database: ${HUM_APP_NAME}_development/" $MONGO_CONFIG
 sed -i "61s/.*/      database: ${HUM_APP_NAME}_test/" $MONGO_CONFIG
+
+# Copies real mongo config file
+cp $MONGO_CONFIG $APP_NAME/config/mongoid.yml
+
+# install zeus gem (just in case)
+echo 'installing zeus gem...'
+cd $APP_NAME & gem install zeus
